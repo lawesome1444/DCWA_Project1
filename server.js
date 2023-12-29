@@ -5,6 +5,26 @@ const app = express()
 const port = 3000
 const ejs = require('ejs');
 
+//Importing and configuring basic mongoDB settings
+const { MongoClient } = require('mongodb');
+const clientMongo = new MongoClient('mongodb://127.0.0.1:27017');
+
+//Connecting to the local MongoDB Database
+async function connectMongo(){
+  try{
+    //Attempt to connect...
+    await clientMongo.connect();
+    console.log("Connected to local MongoDB");
+    //Then access the managers collection
+    const dbMongo = clientMongo.db('proj2023MongoDB');
+    const collMongo = dbMongo.collection('managers');
+  }
+  //Otherwise, print an error to the console
+  catch(err){
+    console.error(err);
+  }
+}connectMongo();
+
 //Use EJS to display html
 app.set('view engine', 'ejs');
 
