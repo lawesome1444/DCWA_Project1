@@ -13,9 +13,26 @@ promiseSQL.createPool({
 })
 //If successful, assign conPool to the db on mySQL server
 .then((res) =>{
-    conpool = res;//Set connection pool using response from mySQL server
+    conPool = res;//Set connection pool using response from mySQL server
 })
 //If this is unsuccessful, log the error reason to the console
-.catch((err) =>{
-    console.log("Error with Connection pool...\n"+err)
+.catch((res) =>{
+    console.log("Error with Connection pool...\n"+res)
 })
+
+//Query the mySQL DB for all the stores and return them to the express server
+function listStores() {
+    //Using default param names for resolve and reject
+    return new Promise((resolve, reject) =>{
+        //Attempt to Query the mySQL database
+        conPool.query('select * from stores')
+        //If the SQL query is valid...
+        .then((res) =>{
+            resolve(res)
+        })
+        //... Otherwise, return an error
+        .catch((res)=>{
+            reject(res)
+        })
+    })
+}
