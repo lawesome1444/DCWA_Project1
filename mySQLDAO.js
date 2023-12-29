@@ -1,7 +1,7 @@
 //mySQL Data Access Object
 
 var conPool;//Hold connection pool for accessing databases
-var promiseSQL;//Used to create a connection pool later and holds the db's configuration settings
+var promiseSQL = require('promise-mysql');//Used to create a connection pool later and holds the db's configuration settings
 
 //Setup the connection pool
 promiseSQL.createPool({
