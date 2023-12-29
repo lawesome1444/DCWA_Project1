@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   res.render('home')
 })
 
-//Display the store.ejs page
+//Display the stores page
 app.get('/stores', async (req, res) =>{
   //Attempt to call the listStores function in the SQL DAO
   try{
@@ -25,6 +25,11 @@ app.get('/stores', async (req, res) =>{
     console.error(err);
     res.status(500).send('SQL Connection Pool error');
   }
+})
+
+//Display the products page
+app.get('/products', (req, res) => {
+  res.render('products')
 })
 
 
