@@ -27,9 +27,18 @@ app.get('/stores', async (req, res) =>{
   }
 })
 
-//Display the products page
-app.get('/products', (req, res) => {
-  res.render('products')
+//Display the stores page
+app.get('/products', async (req, res) =>{
+  //Attempt to call the listStores function in the SQL DAO
+  try{
+    var allProducts = await sqlDAO.listProducts();
+    res.render('products', {allProducts : allProducts});
+  }
+  //if unsuccesful
+  catch (err){
+    console.error(err);
+    res.status(500).send('SQL Connection Pool error');
+  }
 })
 
 
