@@ -25,7 +25,7 @@ function listStores() {
     //Using default param names for resolve and reject
     return new Promise((resolve, reject) =>{
         //Attempt to Query the mySQL database
-        conPool.query('select * from stores')
+        conPool.query('select * from store')
         //If the SQL query is valid...
         .then((res) =>{
             resolve(res)
