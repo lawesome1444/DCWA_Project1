@@ -38,11 +38,14 @@ app.get('/stores/add', async(req, res) =>{
 //Handle adding new stores
 app.post('/stores/add', async(req, res) =>{
   //Get the store info inputted by the user
-  const addID = req.body.sid;
+  const addIDlower = req.body.sid;
+  const addID = addIDlower.toUpperCase();//Make it all capitals
   const addLocation = req.body.location;
   const addManager = req.body.mgrid;
-
+  //Print them to the console
   console.log(addID+addLocation+addManager);
+
+  //Make sure 
 })
 
 
