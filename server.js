@@ -41,6 +41,20 @@ app.get('/products', async (req, res) =>{
   }
 })
 
+//Display the Managers page
+app.get('/managers', async (req, res) =>{
+  //Attempt to call the listStores function in the SQL DAO
+  try{
+    var allManagers = await sqlDAO.listManagers();
+    res.render('managers', {allManagers : allManagers});
+  }
+  //if unsuccesful
+  catch (err){
+    console.error(err);
+    res.status(500).send('MongoDB Search error: Managers page');
+  }
+})
+
 
 //Basic feedback for server console
 app.listen(port, () => {
