@@ -39,10 +39,16 @@ function listStores() {
 
 //Query the mySQL DB for all the products and return them to the express server
 function listProducts() {
+    //Layout for the product page query
+    const sqlQuery =`
+    select p.pid, p.product desc, ps.Price from product p
+    left join product_store ps on p.pid = ps.pid;
+    `;
+
     //Using default param names for resolve and reject
     return new Promise((resolve, reject) =>{
         //Attempt to Query the mySQL database
-        conPool.query('select * from product')
+        conPool.query(sqlQuery)
         //If the SQL query is valid...
         .then((res) =>{
             resolve(res)
