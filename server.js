@@ -1,9 +1,9 @@
 //Import modules
 const express = require('express')
+const sqlDAO = require('./mySQLDAO')
 const app = express()
 const port = 3000
 const ejs = require('ejs');
-const sqlDAO = require('./mySQLDAO')
 
 //Use EJS to display html
 app.set('view engine', 'ejs');
