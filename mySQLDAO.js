@@ -36,3 +36,6 @@ function listStores() {
         })
     })
 }
+
+//Let server.js access these functions
+module.exports = { listStores };
