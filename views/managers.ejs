@@ -1,1 +1,30 @@
 <h1>Managers</h1>
+
+<h1>Products</h1>
+
+<style>
+    table, th, td {
+      border:1px solid black;
+    }
+</style>
+
+<p>To-Do: "Add Store" button here</p>
+<table style="width: 75%">
+    <!-- Titles -->
+    <tr>
+        <th>Manager ID</th>
+        <th>Name</th>
+        <th>Salary</th>
+    </tr>
+    <!-- Table Entries. For every Store in the SQL DB, add a new row with the info of that store -->
+    <% allManagers.forEach((res) => { %>
+        <tr>
+            <td><%= res._id %></td>
+            <td><%= res.name %></td>
+            <td><%= res.salary %></td>
+        </tr>
+    <% }) %>
+</table>
+
+<!-- Return to home page-->
+<a href="/">Home</a>
