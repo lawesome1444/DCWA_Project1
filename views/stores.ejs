@@ -8,6 +8,13 @@
         <th>Manager ID</th>
         <th>Action</th>
     </tr>
-    <!-- Table Entries -->
-    <tr></tr>
+    <!-- Table Entries. For every Store in the SQL DB, add a new row with the info of that store -->
+    <% allStores.forEach((res) => { %>
+        <tr>
+            <td><%= res.sid %></td>
+            <td><%= res.sid %></td>
+            <td><%= res.sid %></td>
+            <td>To-Do</td>
+        </tr>
+    <% }) %>
 </table>
