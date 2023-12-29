@@ -75,5 +75,23 @@ function listProducts() {
     })
 }
 
+//Search the MongoDB database for all the managers
+function listManagers() {
+    //Using default param names for resolve and reject
+    return new Promise((resolve, reject) =>{
+        //Attempt to search the database
+        var searchMongo = collMongo.find();
+        searchMongo.toArray()//Attempt to collect the manager JSON
+        //If successful, send it to the server
+        .then((res) =>{
+            resolve(res)
+        })
+        //... Otherwise, return an error
+        .catch((res)=>{
+            reject(res)
+        })
+    })
+}
+
 //Let server.js access these functions
-module.exports = { listStores, listProducts };
+module.exports = { listStores, listProducts, listManagers };
