@@ -41,8 +41,9 @@ function listStores() {
 function listProducts() {
     //Layout for the product page query
     const sqlQuery =`
-    select p.pid, p.productdesc, ps.Price from product p
-    left join product_store ps on p.pid = ps.pid;
+    select p.pid, p.productdesc, s.sid, s.location ,ps.Price from product p
+    left join product_store ps on p.pid = ps.pid
+    left join store s on ps.sid = s.sid;
     `;
 
     //Using default param names for resolve and reject
