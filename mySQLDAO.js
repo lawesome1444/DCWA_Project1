@@ -37,5 +37,22 @@ function listStores() {
     })
 }
 
+//Query the mySQL DB for all the products and return them to the express server
+function listProducts() {
+    //Using default param names for resolve and reject
+    return new Promise((resolve, reject) =>{
+        //Attempt to Query the mySQL database
+        conPool.query('select * from product')
+        //If the SQL query is valid...
+        .then((res) =>{
+            resolve(res)
+        })
+        //... Otherwise, return an error
+        .catch((res)=>{
+            reject(res)
+        })
+    })
+}
+
 //Let server.js access these functions
-module.exports = { listStores };
+module.exports = { listStores, listProducts };
