@@ -3,6 +3,20 @@
 var conPool;//Hold connection pool for accessing databases
 var promiseSQL = require('promise-mysql');//Used to create a connection pool later and holds the db's configuration settings
 
+//Importing and configuring MongoDB
+const { MongoClient } = require('mongodb');
+MongoClient.connect('mongodb://127.0.0.1:27017')//attempt to connect to the local mongoDB
+//If successful...
+.then((res) =>{
+    dbMongo = res.db('proj2023MongoDB')
+    collMongo = dbMongo.collection('managers')
+})
+//Otherwise, print an error to the console
+.catch((err)=>{
+    console.log(err);
+})
+
+
 //Setup the connection pool
 promiseSQL.createPool({
     connectionLimit: 5,
