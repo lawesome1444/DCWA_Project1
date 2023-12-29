@@ -23,7 +23,7 @@ app.get('/stores', async (req, res) =>{
   //if unsuccesful
   catch (err){
     console.error(err);
-    res.status(500).send('SQL Connection Pool error');
+    res.status(500).send('SQL Connection Pool error: Stores page');
   }
 })
 
@@ -37,7 +37,7 @@ app.get('/products', async (req, res) =>{
   //if unsuccesful
   catch (err){
     console.error(err);
-    res.status(500).send('SQL Connection Pool error');
+    res.status(500).send('SQL Connection Pool error: Products page');
   }
 })
 
