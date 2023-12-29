@@ -27,7 +27,7 @@ app.get('/stores', async (req, res) =>{
   }
 })
 
-//Display the stores page
+//Display the products page
 app.get('/products', async (req, res) =>{
   //Attempt to call the listStores function in the SQL DAO
   try{
