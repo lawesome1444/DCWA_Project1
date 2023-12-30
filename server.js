@@ -147,8 +147,19 @@ app.get('/products/delete/:pid', async(req, res) =>{
   //Attempt to check the PID
   var stockedPID = await sqlDAO.checkProducts(testPID);
   console.log(stockedPID);
+  if(!(stockedPID.length == 0)){
+    console.log("This product is still in stock in stores!");
+    passCondition = 0;
+  }
 
-  res.render('productsDelete');
+  //If the pid isn't in stores, delete it from the product table
+  if(passCondition == 1){
+    const deleteProduct = sqlDAO.deleteProducts(testPID);
+    res.redirect('/products');//"Refresh" the page to reflect product deletion
+  }
+  else{
+    res.render('productsDelete', {pid:testPID});//If the product is in stores, go to an product deletion error page
+  }
 })
 
 //Display the Managers page

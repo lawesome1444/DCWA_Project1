@@ -152,6 +152,22 @@ function checkProducts(testPID){
         })
     })
 }
+//Delete product IDs from SQL database
+function deleteProducts(pid){
+    //Using default param names for resolve and reject
+    return new Promise((resolve, reject) =>{
+        //Attempt to add new store the the SQL database
+        conPool.query('delete from product where pid=?', pid)
+        //If the SQL query is valid...
+        .then((res) =>{
+            resolve(res)
+        })
+        //... Otherwise, return an error
+        .catch((res)=>{
+            reject(res)
+        })
+    })
+}
 
 //Search the MongoDB database for all the managers
 function listManagers() {
@@ -205,4 +221,4 @@ function checkManagersAssigned(testManager){
 }
 
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore, checkProducts };
+module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore, checkProducts, deleteProducts };
