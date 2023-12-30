@@ -39,7 +39,7 @@ function listStores() {
     //Using default param names for resolve and reject
     return new Promise((resolve, reject) =>{
         //Attempt to Query the mySQL database
-        conPool.query('select * from store')
+        conPool.query('SELECT * FROM store')
         //If the SQL query is valid...
         .then((res) =>{
             resolve(res)
@@ -55,7 +55,7 @@ function checkStores(testSID){
         //Using default param names for resolve and reject
         return new Promise((resolve, reject) =>{
             //Attempt to Query the mySQL database
-            conPool.query('select sid from store where sid=?', testSID)//See if a store exists with the ID that the user inputted
+            conPool.query('SELECT sid FROM store WHERE sid=?', testSID)//See if a store exists with the ID that the user inputted
             //If the SQL query is valid...
             .then((res) =>{
                 resolve(res)
@@ -116,9 +116,9 @@ function editStore(sid, location, mgrid){
 function listProducts() {
     //Layout for the product page query
     const sqlQuery =`
-    select p.pid, p.productdesc, s.sid, s.location ,ps.Price from product p
-    left join product_store ps on p.pid = ps.pid
-    left join store s on ps.sid = s.sid;
+    SELECT p.pid, p.productdesc, s.sid, s.location ,ps.Price FROM product p
+    LEFT JOIN product_store ps ON p.pid = ps.pid
+    LEFT JOIN store s ON ps.sid = s.sid;
     `;
 
     //Using default param names for resolve and reject
@@ -141,7 +141,7 @@ function checkProducts(testPID){
     return new Promise((resolve, reject) =>{
         //Attempt to Query the mySQL database
         console.log(testPID);
-        conPool.query('select pid from product_store where pid =?', testPID)//See if this PID exists in the product_store table
+        conPool.query('SELECT pid FROM product_store WHERE pid =?', testPID)//See if this PID exists in the product_store table
         //If the SQL query is valid...
         .then((res) =>{
             resolve(res)
@@ -157,7 +157,7 @@ function deleteProducts(pid){
     //Using default param names for resolve and reject
     return new Promise((resolve, reject) =>{
         //Attempt to add new store the the SQL database
-        conPool.query('delete from product where pid=?', pid)
+        conPool.query('DELETE FROM product WHERE pid=?', pid)
         //If the SQL query is valid...
         .then((res) =>{
             resolve(res)
@@ -208,7 +208,7 @@ function checkManagersAssigned(testManager){
             //Using default param names for resolve and reject
             return new Promise((resolve, reject) =>{
                 //Attempt to Query the mySQL database
-                conPool.query('select * from store where mgrid=?', testManager)//See if a manager with this ID is already assigned to a store
+                conPool.query('SELECT * FROM store WHERE mgrid=?', testManager)//See if a manager with this ID is already assigned to a store
                 //If the SQL query is valid...
                 .then((res) =>{
                     resolve(res)
