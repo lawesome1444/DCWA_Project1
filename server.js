@@ -46,7 +46,7 @@ app.post('/stores/add', async(req, res) =>{
   const addManager = req.body.mgrid;
   //Print them to the console
   console.log(addSID+addLocation+addManager);
-  
+
   //Make sure the storeID is unique
   var uniqueSID = await sqlDAO.checkStores(addSID);
   //If results are found, entries are added to test. This makes test's length (entries) bigger than 0, meaning the ID was not unique.
@@ -56,13 +56,28 @@ app.post('/stores/add', async(req, res) =>{
   }
 
   //Make sure the manager exists
-  const existsManager = await sqlDAO.checkManagers(addManager);
+  const existsManager = await sqlDAO.checkManagersExist(addManager);
   if(!existsManager){
-    console.log(existsManager);
+    console.log("A manager with this ID does not exist.");
     passCondition = 0;
   }
 
-  res.render('storesAdd');
+  //Make sure the manager is not already assigned to a store
+  const assignedManager = await sqlDAO.checkManagersAssigned(addManager);
+  if(!(assignedManager == 0)){
+    console.log("This manager is already assigned to a store.");
+    passCondition = 0;
+  }
+
+  //If none of the checks fail, add the store
+  if(passCondition == 1){
+    const attemptAdd = sqlDAO.addStore(addSID, addLocation, addManager);
+    res.redirect('/stores');
+  }
+  //Otherwise...
+  else{
+    console.log("Fail");
+  }
 })
 
 

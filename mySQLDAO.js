@@ -67,6 +67,28 @@ function checkStores(testSID){
         })
 }
 
+//Add new stores to the Database
+function addStore(sid, location, mgrid){
+            //Query layout for adding new store
+            const sqlQuery =`
+            INSERT INTO store (sid, location, mgrid) 
+            VALUES (?, ?, ?);
+            `;
+            //Using default param names for resolve and reject
+            return new Promise((resolve, reject) =>{
+                //Attempt to add new store the the SQL database
+                conPool.query(sqlQuery, [sid, location, mgrid])
+                //If the SQL query is valid...
+                .then((res) =>{
+                    resolve(res)
+                })
+                //... Otherwise, return an error
+                .catch((res)=>{
+                    reject(res)
+                })
+            })
+}
+
 //Query the mySQL DB for all the products and return them to the express server
 function listProducts() {
     //Layout for the product page query
@@ -110,7 +132,7 @@ function listManagers() {
 }
 
 //Check if a manager exists
-function checkManagers(testManager){
+function checkManagersExist(testManager){
         //Using default param names for resolve and reject
         return new Promise((resolve, reject) =>{
             //Attempt to search the database for a specific manager id
@@ -125,6 +147,22 @@ function checkManagers(testManager){
             })
         })
 }
+//Check if the manager is assigned to a store already
+function checkManagersAssigned(testManager){
+            //Using default param names for resolve and reject
+            return new Promise((resolve, reject) =>{
+                //Attempt to Query the mySQL database
+                conPool.query('select * from store where mgrid=?', testManager)//See if a manager with this ID is already assigned to a store
+                //If the SQL query is valid...
+                .then((res) =>{
+                    resolve(res)
+                })
+                //... Otherwise, return an error
+                .catch((res)=>{
+                    reject(res)
+                })
+            })
+}
 
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers, checkStores, checkManagers };
+module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore };
