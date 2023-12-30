@@ -87,9 +87,40 @@ app.get('/stores/edit/:id', async(req, res) =>{
   //Render the edit store page. Use the passed on sid as the read-only value to the SID field on that page
   res.render('storesEdit', {sid:sid});//Render the page with the passed on store details
 })
+//Handles editing store entries
+app.post('/stores/edit/:id', async(req, res) =>{
+  var passCondition = 1;//Required to be 1 in order to add a new store. 0 = fail, 1 = success
+  //Getting the edits made by the user
+  const editSID = req.params.id;
+  const editLocation = req.body.location;
+  const editManager = req.body.mgrid;
 
+    //Make sure the manager exists
+    const existsManager = await sqlDAO.checkManagersExist(editManager);
+    if(!existsManager){
+      console.log("A manager with this ID does not exist.");
+      passCondition = 0;
+    }
 
+  //Make sure the manager is not already assigned to a store
+  const assignedManager = await sqlDAO.checkManagersAssigned(editManager);
+  if(!(assignedManager == 0)){
+    console.log("This manager is already assigned to a store.");
+    passCondition = 0;
+  }
 
+  console.log(editSID);
+
+    //If none of the checks fail, apply the edits
+    if(passCondition == 1){
+      const attemptEdit = sqlDAO.editStore(editSID, editLocation, editManager);
+      res.redirect('/stores');
+    }
+    //Otherwise...
+    else{
+      console.log("Fail");
+    }
+})
 
 
 

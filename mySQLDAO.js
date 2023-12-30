@@ -89,6 +89,29 @@ function addStore(sid, location, mgrid){
             })
 }
 
+//Edit an existing store's information
+function editStore(sid, location, mgrid){
+    //Query layout for editing store details
+    const sqlQuery =`
+    UPDATE store
+    SET location=?, mgrid=?
+    WHERE sid = ?;
+    `;
+        //Using default param names for resolve and reject
+        return new Promise((resolve, reject) =>{
+            //Attempt to add new store the the SQL database
+            conPool.query(sqlQuery, [location, mgrid, sid])
+            //If the SQL query is valid...
+            .then((res) =>{
+                resolve(res)
+            })
+            //... Otherwise, return an error
+            .catch((res)=>{
+                reject(res)
+            })
+        })
+}
+
 //Query the mySQL DB for all the products and return them to the express server
 function listProducts() {
     //Layout for the product page query
@@ -165,4 +188,4 @@ function checkManagersAssigned(testManager){
 }
 
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore };
+module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore };
