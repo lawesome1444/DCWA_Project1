@@ -80,6 +80,10 @@ app.post('/stores/add', async(req, res) =>{
   }
 })
 
+//Display the storesEdit page
+app.get('/stores/edit/', async(req, res) =>{
+  res.render('storesEdit');
+})
 
 //Display the products page
 app.get('/products', async (req, res) =>{
