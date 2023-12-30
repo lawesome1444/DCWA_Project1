@@ -50,7 +50,7 @@ function listStores() {
         })
     })
 }
-//Check if a product is unique
+//Check if a store exists
 function checkStores(testSID){
         //Using default param names for resolve and reject
         return new Promise((resolve, reject) =>{
@@ -109,5 +109,22 @@ function listManagers() {
     })
 }
 
+//Check if a manager exists
+function checkManagers(testManager){
+        //Using default param names for resolve and reject
+        return new Promise((resolve, reject) =>{
+            //Attempt to search the database for a specific manager id
+            var searchMongo = collMongo.findOne({ _id: testManager})
+            //If successful, send it to the server
+            .then((res) =>{
+                resolve(res)
+            })
+            //... Otherwise, return an error
+            .catch((res)=>{
+                reject(res)
+            })
+        })
+}
+
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers, checkStores };
+module.exports = { listStores, listProducts, listManagers, checkStores, checkManagers };
