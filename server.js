@@ -175,6 +175,20 @@ app.get('/managers', async (req, res) =>{
     res.status(500).send('MongoDB Search error: Managers page');
   }
 })
+//Display managerAdd page
+app.get('/managers/add', (req, res) =>{
+  //Render the manager add page
+  res.render('managersAdd');
+})
+//Handle Manager addition requests
+app.post('/managers/add', async (req, res) =>{
+  //Check if the manager exists. If they do, log an error. Otherwise, add the manager
+  const checkManager = await sqlDAO.checkManagersExist(req.body._id);
+  if(!checkManager)
+    console.log(checkManager);
+
+
+})
 
 
 //Basic feedback for server console
