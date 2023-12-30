@@ -200,7 +200,9 @@ app.post('/managers/add', async (req, res) =>{
   }
   //Otherwise, log an error
   else{
-    res.render('managersAdd',);
+    //The layout for this error message was found on Stack Overflow. A link can be found below.
+    //https://stackoverflow.com/questions/42106506/express-js-how-to-send-alert-from-express-to-client-using-res-render-not-res#answer-61981784
+    res.send(`<script>alert("Error: Manager `+req.body._id+` already exists in MongoDB"); window.location.href = "/managers/add";</script>`);
   }
 
 })
