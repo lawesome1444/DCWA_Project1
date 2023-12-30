@@ -81,17 +81,17 @@ app.post('/stores/add', async(req, res) =>{
 })
 
 //Display the storesEdit page
-app.get('/stores/edit/:id', async(req, res) =>{
+app.get('/stores/edit/:sid', async(req, res) =>{
   //Grab the passed on sid
-  const sid = req.params.id;
+  const sid = req.params.sid;
   //Render the edit store page. Use the passed on sid as the read-only value to the SID field on that page
   res.render('storesEdit', {sid:sid});//Render the page with the passed on store details
 })
 //Handles editing store entries
-app.post('/stores/edit/:id', async(req, res) =>{
-  var passCondition = 1;//Required to be 1 in order to add a new store. 0 = fail, 1 = success
+app.post('/stores/edit/:sid', async(req, res) =>{
+  var passCondition = 1;//Required to be 1 in order to edit store details. 0 = fail, 1 = success
   //Getting the edits made by the user
-  const editSID = req.params.id;
+  const editSID = req.params.sid;
   const editLocation = req.body.location;
   const editManager = req.body.mgrid;
 
@@ -136,6 +136,19 @@ app.get('/products', async (req, res) =>{
     console.error(err);
     res.status(500).send('SQL Connection Pool error: Products page');
   }
+})
+//Handle product deletion requests
+app.get('/products/delete/:pid', async(req, res) =>{
+  var passCondition = 1;//Required to be 1 in order to delete a product. 0 = fail, 1 = success
+  
+  console.log(req.params.pid);
+  //Store the PID passed by the specific delete button
+  const testPID = req.params.pid;
+  //Attempt to check the PID
+  var stockedPID = await sqlDAO.checkProducts(testPID);
+  console.log(stockedPID);
+
+  res.render('productsDelete');
 })
 
 //Display the Managers page

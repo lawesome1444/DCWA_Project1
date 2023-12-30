@@ -135,6 +135,23 @@ function listProducts() {
         })
     })
 }
+//Check if a product ID exists on the product_store table (aka is it assigned to a store)
+function checkProducts(testPID){
+    //Using default param names for resolve and reject
+    return new Promise((resolve, reject) =>{
+        //Attempt to Query the mySQL database
+        console.log(testPID);
+        conPool.query('select pid from product_store where pid =?', testPID)//See if this PID exists in the product_store table
+        //If the SQL query is valid...
+        .then((res) =>{
+            resolve(res)
+        })
+        //... Otherwise, return an error
+        .catch((res)=>{
+            reject(res)
+        })
+    })
+}
 
 //Search the MongoDB database for all the managers
 function listManagers() {
@@ -188,4 +205,4 @@ function checkManagersAssigned(testManager){
 }
 
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore };
+module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore, checkProducts };

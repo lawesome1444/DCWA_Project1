@@ -24,7 +24,7 @@
             <td><%= res.sid %></td>
             <td><%= res.location %></td>
             <td><%= res.Price %></td>
-            <td>To-Do Delete</td>
+            <td><a href="/products/delete/<%= res.pid %>">Delete <%= res.pid %></a></td>
         </tr>
     <% }) %>
 </table>
