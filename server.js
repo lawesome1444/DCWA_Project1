@@ -105,6 +105,8 @@ app.post('/stores/edit/:sid', async(req, res) =>{
     const existsManager = await sqlDAO.checkManagersExist(editManager);
     if(!existsManager){
       console.log("A manager with this ID does not exist.");
+      //Send JS alert to the page, then "refresh" the page
+      res.send(`<script>alert("Error: Manager `+editManager+` doesn't exist in MongoDB"); window.location.href = "/stores/edit/`+editSID+`";</script>`);
       passCondition = 0;
     }
 
@@ -112,6 +114,8 @@ app.post('/stores/edit/:sid', async(req, res) =>{
   const assignedManager = await sqlDAO.checkManagersAssigned(editManager);
   if(!(assignedManager == 0)){
     console.log("This manager is already assigned to a store.");
+    //Send JS alert to the page, then "refresh" the page
+    res.send(`<script>alert("Error: Manager `+editManager+` is already managing another store"); window.location.href = "/stores/edit/`+editSID+`";</script>`);
     passCondition = 0;
   }
 
