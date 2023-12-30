@@ -175,18 +175,33 @@ app.get('/managers', async (req, res) =>{
     res.status(500).send('MongoDB Search error: Managers page');
   }
 })
+
 //Display managerAdd page
 app.get('/managers/add', (req, res) =>{
   //Render the manager add page
   res.render('managersAdd');
 })
+
 //Handle Manager addition requests
 app.post('/managers/add', async (req, res) =>{
-  //Check if the manager exists. If they do, log an error. Otherwise, add the manager
+  //Create array for adding JSON to mongoDB
+  const newManager = {
+    _id: req.body._id,
+    name: req.body.name,
+    salary: Number(req.body.salary)
+  };
+  
+  //Check if the manager exists.
   const checkManager = await sqlDAO.checkManagersExist(req.body._id);
-  if(!checkManager)
-    console.log(checkManager);
-
+  //If no manager exists with this manager ID, add them to MongoDB
+  if(!checkManager){
+    const addManager = await sqlDAO.addManager(newManager);
+    res.redirect('/managers');
+  }
+  //Otherwise, log an error
+  else{
+    res.render('managersAdd',);
+  }
 
 })
 

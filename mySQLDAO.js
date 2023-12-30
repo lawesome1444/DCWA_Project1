@@ -220,5 +220,21 @@ function checkManagersAssigned(testManager){
             })
 }
 
+function addManager(details){
+    //Using default param names for resolve and reject
+    return new Promise((resolve, reject) =>{
+        //Attempt to add the manager to the mongo database
+        var searchMongo = collMongo.insertOne(details)
+        //If successful, send it to the server
+        .then((res) =>{
+            resolve(res)
+        })
+        //... Otherwise, return an error
+        .catch((err)=>{
+            reject(err)
+        })
+    })
+}
+
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore, checkProducts, deleteProducts };
+module.exports = { listStores, listProducts, listManagers, checkStores, checkManagersExist, checkManagersAssigned, addStore, editStore, checkProducts, deleteProducts, addManager };
