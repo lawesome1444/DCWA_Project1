@@ -56,25 +56,26 @@ app.post('/stores/add', async(req, res) =>{
     res.send(`<script>alert("Error: Store `+addSID+` already exists in mySQL Database"); window.location.href = "/stores/add";</script>`);
     passCondition = 0;
   }
+  //Make sure that 2 fail conditions cannot happen at the same time, as this will crash the application
+  else{
+    //Make sure the manager exists
+    const existsManager = await sqlDAO.checkManagersExist(addManager);
+    if(!existsManager){
+      console.log("A manager with this ID does not exist.");
+      //Send JS alert to the page, then "refresh" the page
+      res.send(`<script>alert("Error: Manager `+addManager+` doesn't exist in MongoDB"); window.location.href = "/stores/add";</script>`);
+      passCondition = 0;
+    }
 
-  //Make sure the manager exists
-  const existsManager = await sqlDAO.checkManagersExist(addManager);
-  if(!existsManager){
-    console.log("A manager with this ID does not exist.");
-    //Send JS alert to the page, then "refresh" the page
-    res.send(`<script>alert("Error: Manager `+addManager+` doesn't exist in MongoDB"); window.location.href = "/stores/add";</script>`);
-    passCondition = 0;
+    //Make sure the manager is not already assigned to a store
+    const assignedManager = await sqlDAO.checkManagersAssigned(addManager);
+    if(!(assignedManager == 0)){
+      console.log("This manager is already assigned to a store.");
+      //Send JS alert to the page, then "refresh" the page
+      res.send(`<script>alert("Error: Manager `+addManager+` is already managing another store"); window.location.href = "/stores/add";</script>`);
+      passCondition = 0;
+    }
   }
-
-  //Make sure the manager is not already assigned to a store
-  const assignedManager = await sqlDAO.checkManagersAssigned(addManager);
-  if(!(assignedManager == 0)){
-    console.log("This manager is already assigned to a store.");
-    //Send JS alert to the page, then "refresh" the page
-    res.send(`<script>alert("Error: Manager `+addManager+` is already managing another store"); window.location.href = "/stores/add";</script>`);
-    passCondition = 0;
-  }
-
   //If none of the checks fail, add the store
   if(passCondition == 1){
     const attemptAdd = sqlDAO.addStore(addSID, addLocation, addManager);
