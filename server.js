@@ -81,9 +81,17 @@ app.post('/stores/add', async(req, res) =>{
 })
 
 //Display the storesEdit page
-app.get('/stores/edit/', async(req, res) =>{
-  res.render('storesEdit');
+app.get('/stores/edit/:id', async(req, res) =>{
+  //Grab the passed on sid
+  const sid = req.params.id;
+  //Render the edit store page. Use the passed on sid as the read-only value to the SID field on that page
+  res.render('storesEdit', {sid:sid});//Render the page with the passed on store details
 })
+
+
+
+
+
 
 //Display the products page
 app.get('/products', async (req, res) =>{
