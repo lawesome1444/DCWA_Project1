@@ -50,6 +50,22 @@ function listStores() {
         })
     })
 }
+//Check if a product is unique
+function checkStores(testSID){
+        //Using default param names for resolve and reject
+        return new Promise((resolve, reject) =>{
+            //Attempt to Query the mySQL database
+            conPool.query('select sid from store where sid=?', testSID)//See if a store exists with the ID that the user inputted
+            //If the SQL query is valid...
+            .then((res) =>{
+                resolve(res)
+            })
+            //... Otherwise, return an error
+            .catch((res)=>{
+                reject(res)
+            })
+        })
+}
 
 //Query the mySQL DB for all the products and return them to the express server
 function listProducts() {
@@ -94,4 +110,4 @@ function listManagers() {
 }
 
 //Let server.js access these functions
-module.exports = { listStores, listProducts, listManagers };
+module.exports = { listStores, listProducts, listManagers, checkStores };

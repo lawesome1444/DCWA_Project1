@@ -37,6 +37,8 @@ app.get('/stores/add', async(req, res) =>{
 })
 //Handle adding new stores
 app.post('/stores/add', async(req, res) =>{
+  var passCondition = 1;//Required to be 1 in order to add a new store. 0 = fail, 1 = success
+  
   //Get the store info inputted by the user
   const addIDlower = req.body.sid;
   const addID = addIDlower.toUpperCase();//Make it all capitals
@@ -45,7 +47,20 @@ app.post('/stores/add', async(req, res) =>{
   //Print them to the console
   console.log(addID+addLocation+addManager);
 
-  //Make sure 
+  //Make sure the Store ID is formatted properly
+  if(!(addID.length == 5)){
+    console.log("Store ID too short/long");
+    passCondition = 0;
+  }
+  //Make sure the storeID is unique
+  var test = await sqlDAO.checkStores(addID);
+  //If results are found, entries are added to test. This makes test's length (entries) bigger than 0, meaning the ID was not unique.
+  if(!(test.length == 0)){
+    console.log("Store ID already exists");
+    passCondition = 0;
+  }
+
+  res.render('storesAdd');
 })
 
 
