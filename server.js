@@ -52,6 +52,7 @@ app.post('/stores/add', async(req, res) =>{
   //If results are found, entries are added to test. This makes test's length (entries) bigger than 0, meaning the ID was not unique.
   if(!(uniqueSID.length == 0)){
     console.log("Store ID already exists");
+    res.send(`<script>alert("Error: Store `+addSID+` already exists in mySQL Database"); window.location.href = "/stores/add";</script>`);
     passCondition = 0;
   }
 
@@ -59,6 +60,7 @@ app.post('/stores/add', async(req, res) =>{
   const existsManager = await sqlDAO.checkManagersExist(addManager);
   if(!existsManager){
     console.log("A manager with this ID does not exist.");
+    res.send(`<script>alert("Error: Manager `+addManager+` doesn't exist in MongoDB"); window.location.href = "/stores/add";</script>`);
     passCondition = 0;
   }
 
@@ -66,6 +68,7 @@ app.post('/stores/add', async(req, res) =>{
   const assignedManager = await sqlDAO.checkManagersAssigned(addManager);
   if(!(assignedManager == 0)){
     console.log("This manager is already assigned to a store.");
+    res.send(`<script>alert("Error: Manager `+addManager+` is already managing another store"); window.location.href = "/stores/add";</script>`);
     passCondition = 0;
   }
 
